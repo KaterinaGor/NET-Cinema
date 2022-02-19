@@ -1,0 +1,73 @@
+﻿@* @model IEnumerable<Cinema.Models.Film> *@
+
+@model PagedList.IPagedList<Cinema.Models.Film>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index FilmsAction</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<div class="container">
+    <div class="row" style="display:flex; display:-webkit-flex; flex-wrap:wrap">
+
+        @foreach (var item in Model)
+        {
+
+            <div class="col-sm-12">
+
+                <h3>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </h3>
+
+
+
+                <div class="col-sm-3">
+
+                    @if (item.Cover != null)
+                    {
+                        <img src="@Url.Action("GetImage",new {item.Id})" class="img-rounded" style="max-width:80%; height:auto;" />
+                    }
+                </div>
+
+                <div class="col-sm-9">
+
+                    <p>Страна: @Html.DisplayFor(modelItem => item.Country)</p>
+
+                    <p>Год: @Html.DisplayFor(modelItem => item.Year)</p>
+
+                    <p style="text-align:justify">Описание: <br>@Html.DisplayFor(modelItem => item.Description)</p>
+
+                    <p>
+                        В фильме снимались:
+                        @foreach (var actor in item.FilmActors)
+                        {
+                            <a href="/ActorsAction/Details/@actor.ActorId">@actor.Actor.FirstName @actor.Actor.LastName</a>
+
+                        }
+
+                    </p>
+                </div>
+
+
+                <p>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </p>
+
+            </div>
+
+        }
+
+    </div>
+</div>
+
+<br />
+        Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+

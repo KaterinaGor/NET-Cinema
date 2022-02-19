@@ -1,0 +1,55 @@
+﻿@model Cinema.Models.Film
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>FilmsAction Details</h2>
+
+<h4>Film</h4>
+
+    <div class="container">
+        <div class="row" style="display:flex; display:-webkit-flex; flex-wrap:wrap">
+
+            <div class="col-sm-12">
+
+                <h3>
+                    @Html.DisplayFor(model => model.Title)
+                </h3>
+
+                <div class="col-sm-3">
+
+                    @if (Model.Cover != null)
+                    {
+                        <img src="@Url.Action("GetImage",new {Model.Id})" class="img-rounded" style="max-width:80%; height:auto;" />
+                    }
+                </div>
+
+                <div class="col-sm-9">
+
+                    <p>Страна: @Html.DisplayFor(model => Model.Country)</p>
+
+                    <p>Год: @Html.DisplayFor(model => Model.Year)</p>
+
+                    <p style="text-align:justify">Описание: <br>@Html.DisplayFor(model => Model.Description)</p>
+
+                    <p>
+                        В фильме снимались:
+                        @foreach (var actor in Model.FilmActors)
+                        {
+                            <a href="/Actors/Details/@actor.ActorId">@actor.Actor.FirstName @actor.Actor.LastName</a>
+
+                        }
+
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+    @Html.ActionLink("Back to List", "Index")
+</p>

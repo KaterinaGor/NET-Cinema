@@ -1,0 +1,31 @@
+﻿@model IEnumerable<Cinema.Models.Film>
+
+<div class="container">
+    <div class="row">
+        <div id="results">
+            <h1>Поиск фильмов по стране:</h1>
+            <p>
+                <b>Найдено по запросу всего @Model.Count() фильмов</b>
+            </p>
+
+
+            @foreach (var item in Model)
+            {
+        <div class="col-sm-12" style="margin:1em">
+            <h1 style="text-align:center">
+                @Html.DisplayFor(modelItem => item.Title)
+            </h1>
+
+            @* @Html.ActionLink(item.Title, "Details", new { id = item.Id }) *@
+
+            <a href="@Url.Action("Details","Films", new { id = item.Id })">Details</a>
+
+            <p>@Html.DisplayFor(modelItem => item.Description)</p>
+
+            <p>Страна @Html.DisplayFor(modelItem => item.Country)</p>
+        </div>
+            }
+
+        </div>
+    </div>
+</div>

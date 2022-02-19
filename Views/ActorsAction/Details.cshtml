@@ -1,0 +1,42 @@
+﻿@model Cinema.Models.Actor
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details ActorsAction</h2>
+
+<div>
+    <h4>Actor: @Model.FirstName @Model.LastName</h4>
+    <hr />
+    <div class="panel panel-default">
+        <div class="panel-body">
+
+
+            @if (Model.Photo != null)
+            {
+                <img src="@Url.Action("GetImage", new {Model.Id})" class="img-rounded" style="max-width:30%; height:auto;" />
+            }
+
+
+        <p>Фильмография:</p>
+        <ul>
+
+            @foreach (var film in Model.FilmActors)
+            {
+            <li>
+                <a href="/Films/Details/@film.FilmId">@film.Film.Title </a>
+            </li>
+
+            }
+        </ul>
+
+            
+
+        </div>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</div>

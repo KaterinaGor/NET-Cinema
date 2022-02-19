@@ -1,0 +1,67 @@
+﻿@* @model IEnumerable<Cinema.Models.Film> *@
+
+@model PagedList.IPagedList<Cinema.Models.Film>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index Films Pages</h2>
+
+<div style="margin-top:30px; margin-bottom:30px; text-align: left">
+    Поиск фильма по стране
+    @using (Ajax.BeginForm("FilmSearch", "FilmsPages", new AjaxOptions { UpdateTargetId = "results" }))
+    {
+        <input type="text" name="FilmCountry" placeholder="Введите страну" />
+        <input type="submit" value="Поиск" />
+    }
+
+</div>
+<div id="results">
+</div>
+
+
+
+<div class="container">
+    <div class="row">
+
+        @foreach (var item in Model)
+        {
+            <div class="col-sm-12" style="margin:1em; border:thin dotted">
+                <h1 style="text-align:center">
+
+                    @Html.DisplayFor(modelItem => item.Title)
+                </h1>
+                    <p>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </p>
+                    <p>
+                        Год выхода:
+                        @Html.DisplayFor(modelItem => item.Year)
+                    </p>
+                    <p>
+                        Страна:
+                        @Html.DisplayFor(modelItem => item.Country)
+                    </p>
+                    <p>
+                        В фильме снимались:
+                        <ul>
+                            @foreach (var actor in item.FilmActors)
+                            {
+                                <li>
+                                    <a href="/ActorsAction/Details/@actor.ActorId">@actor.Actor.FirstName @actor.Actor.LastName</a>
+                                </li>
+                            }
+                        </ul>
+
+                    </p>
+
+            </div>
+        }
+    </div>
+</div>
+
+<br />
+Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount @Html.PagedListPager(Model, Page => Url.Action("Index", new { Page }))

@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Cinema.Models.Film>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>My Films</h2>
+
+
+
+<div class="container">
+    <div class="row"
+
+    @foreach (var item in Model)
+    {
+        <div class="col-sm-12" style="margin:1em">
+            <h1 style="text-align:center">
+
+                @Html.DisplayFor(modelItem => item.Title)
+            </h1>
+
+            @if (item.Cover != null)
+
+            {
+                <div class="col-sm-4">
+                    <img src="@Url.Action("GetImage",new {item.Id})" class="img-rounded" style="max-width:80%; height:auto;" />
+                </div>
+            }
+
+
+
+        <div class="col-sm-8">
+            <p style="text-align:justify">
+                Описание:
+                @Html.DisplayFor(modelItem => item.Description)
+            </p>
+            <p>
+                Год выхода:
+                @Html.DisplayFor(modelItem => item.Year)
+            </p>
+            <p>
+                Страна:
+                @Html.DisplayFor(modelItem => item.Country)
+            </p>
+
+            <p>
+                В фильме снимались:
+                @foreach (var actor in item.FilmActors)
+                {
+                    <a href="/ActorsAction/Details/@actor.ActorId">@actor.Actor.FirstName @actor.Actor.LastName</a>
+
+                }
+
+            </p>
+
+        </div>
+
+
+
+                </div>
+            }
+        </div>
+</div>
